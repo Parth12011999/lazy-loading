@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Header from './components/Header';
+import Footer from './components/Footer';
+const Home = React.lazy(() => import('./pages/Home'))
+const Product = React.lazy(() => import('./pages/Product'))
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route index path='/' element={<><Header /> 
+        <div className='container d-flex justify-content-center align-items-center' style={{minHeight:'85vh'}}> 
+        <Suspense
+          fallback={<>
+            <div class="text-center">
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </>}>
+          <Home />
+          </Suspense>
+          </div>
+          <Footer /></>}></Route>
+        <Route path='/product' element={<><Header />
+        <div className='container d-flex justify-content-center align-items-center' style={{minHeight:'85vh'}}> 
+        <Suspense
+          fallback={<>
+            <div class="text-center">
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </>}>
+          <Product />
+          </Suspense>
+          </div>
+          <Footer /></>}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
